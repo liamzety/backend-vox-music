@@ -1,0 +1,3 @@
+CREATE DATABASE template;
+
+CREATE TABLE template(_id SERIAL PRIMARY KEY, name VARCHAR(255),hairColor VARCHAR(255));

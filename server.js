@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const cors = require('cors')
-const path = require('path')
 
 const app = express()
 const port = process.env.PORT || 3030;
@@ -24,21 +23,16 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const authRoutes = require('./api/auth/auth.routes')
 const addTemplateRoutes = require('./api/template/template.route')
-const addUserRoutes = require('./api/user/user.route')
+// const authRoutes = require('./api/auth/auth.routes')
 // const connectSockets = require('./api/socket/socket.routes')
 
 
-// routes
-app.use('/api/auth', authRoutes)
+// // routes
+// app.use('/api/auth', authRoutes)
 app.use('/api/template', addTemplateRoutes)
-app.use('/api/user', addUserRoutes)
-// connectSockets(io)
+// // connectSockets(io)
 
-// app.get('/**', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-// })
 
 http.listen(port, () => {
     (`listening on http://localhost:${port}`)

@@ -8,7 +8,7 @@ const { getTemplates,
 const router = express.Router()
 
 router.get('/', getTemplates)
-router.get('/edit/:id', getTemplate)
+router.get('/:id', getTemplate)
 router.put('/:id', updateTemplate)
 router.post('/', addTemplate)
 router.delete('/:id', removeTemplate)
