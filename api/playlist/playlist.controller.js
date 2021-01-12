@@ -2,51 +2,50 @@ const pool = require("../../db");
 
 const TABLE_NAME = "template"
 // GET LIST
-async function getTemplates(req, res) {
+async function getPlaylists(req, res) {
     try {
-        const templates = await pool.query(`SELECT * FROM ${TABLE_NAME}`)
-        res.send(templates.rows)
+        const playlists = await pool.query(`SELECT * FROM ${TABLE_NAME}`)
+        res.send(playlists.rows)
     } catch (err) {
         console.error(err.message)
     }
 }
 // GET SINGLE
-async function getTemplate(req, res) {
+async function getPlaylist(req, res) {
     try {
         const { id } = req.params
-        const template = await pool.query(`
+        const playlist = await pool.query(`
         SELECT * FROM ${TABLE_NAME}
          WHERE _id = $1
          `, [id])
-        res.send(template.rows[0])
+        res.send(playlist.rows[0])
     } catch (err) {
         console.error(err.message)
     }
 }
 // CREATE
-async function addTemplate(req, res) {
+async function addPlaylist(req, res) {
     try {
-        const { name } = req.body
-        const newTemplate = await pool.query(`
+        const { title, description, url } = req.body
+        const newPlaylist = await pool.query(`
             INSERT INTO ${TABLE_NAME} 
-            (name) VALUES($1) RETURNING *
-            `, [name])
+            (title,description,url) VALUES ($1,$2,$3) RETURNING *`, [title, description, url])
 
-        res.send(newTemplate.rows[0])
+        res.send(newPlaylist.rows[0])
     } catch (err) {
         console.error(err.message)
     }
 }
 // UPDATE
-async function updateTemplate(req, res) {
+async function updatePlaylist(req, res) {
     try {
         const { id } = req.params
         const { name } = req.body
-        const updatedTemplate = await pool.query(`
+        const updatedPlaylist = await pool.query(`
             UPDATE ${TABLE_NAME} SET name = $1
             WHERE _id = $2 RETURNING *
             `, [name, id])
-        res.send(updatedTemplate.rows[0])
+        res.send(updatedPlaylist.rows[0])
 
     } catch (err) {
         console.error(err.message)
@@ -54,7 +53,7 @@ async function updateTemplate(req, res) {
 }
 
 // DELETE
-async function removeTemplate(req, res) {
+async function removePlaylist(req, res) {
     try {
         const { id } = req.params
         await pool.query(`
@@ -69,9 +68,9 @@ async function removeTemplate(req, res) {
 
 
 module.exports = {
-    getTemplates,
-    getTemplate,
-    addTemplate,
-    updateTemplate,
-    removeTemplate
+    getPlaylists,
+    getPlaylist,
+    addPlaylist,
+    updatePlaylist,
+    removePlaylist
 }

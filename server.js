@@ -23,14 +23,14 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const addTemplateRoutes = require('./api/template/template.route')
+const addPlaylistRoutes = require('./api/playlist/playlist.route')
 // const authRoutes = require('./api/auth/auth.routes')
 // const connectSockets = require('./api/socket/socket.routes')
 
 
 // // routes
 // app.use('/api/auth', authRoutes)
-app.use('/api/template', addTemplateRoutes)
+app.use('/api/playlist', addPlaylistRoutes)
 // // connectSockets(io)
 
 
