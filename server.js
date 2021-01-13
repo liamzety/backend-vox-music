@@ -17,7 +17,7 @@ app.use(session({
 }))
 
 const corsOptions = {
-    origin: '*',
+    origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
     credentials: true
 };
 app.use(cors(corsOptions));
