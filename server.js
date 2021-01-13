@@ -24,6 +24,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const addPlaylistRoutes = require('./api/playlist/playlist.route')
+const addSongRoutes = require('./api/song/song.route')
 // const authRoutes = require('./api/auth/auth.routes')
 // const connectSockets = require('./api/socket/socket.routes')
 
@@ -31,6 +32,7 @@ const addPlaylistRoutes = require('./api/playlist/playlist.route')
 // // routes
 // app.use('/api/auth', authRoutes)
 app.use('/api/playlist', addPlaylistRoutes)
+app.use('/api/song', addSongRoutes)
 // // connectSockets(io)
 
 

@@ -1,10 +1,11 @@
 const pool = require("../../db");
 
-const TABLE_NAME = "template"
+const PLAYLIST_TABLE = "playlist"
+const SONG_TABLE = "song"
 // GET LIST
 async function getPlaylists(req, res) {
     try {
-        const playlists = await pool.query(`SELECT * FROM ${TABLE_NAME}`)
+        const playlists = await pool.query(`SELECT * FROM ${PLAYLIST_TABLE}`)
         res.send(playlists.rows)
     } catch (err) {
         console.error(err.message)
@@ -14,11 +15,17 @@ async function getPlaylists(req, res) {
 async function getPlaylist(req, res) {
     try {
         const { id } = req.params
-        const playlist = await pool.query(`
-        SELECT * FROM ${TABLE_NAME}
+        let playlist = await pool.query(`
+        SELECT * FROM ${PLAYLIST_TABLE}
          WHERE _id = $1
          `, [id])
-        res.send(playlist.rows[0])
+        let playlistSongs = await pool.query(`
+        SELECT * FROM ${SONG_TABLE}
+         WHERE playlist_id = $1
+         `, [id])
+        playlist = playlist.rows[0]
+        playlistSongs = playlistSongs.rows
+        res.status(200).send({ playlist, playlistSongs })
     } catch (err) {
         console.error(err.message)
     }
@@ -26,10 +33,10 @@ async function getPlaylist(req, res) {
 // CREATE
 async function addPlaylist(req, res) {
     try {
-        const { title, description, url } = req.body
+        const { name, description, img, genre } = req.body
         const newPlaylist = await pool.query(`
-            INSERT INTO ${TABLE_NAME} 
-            (title,description,url) VALUES ($1,$2,$3) RETURNING *`, [title, description, url])
+            INSERT INTO ${PLAYLIST_TABLE} 
+            (name,description,img,genre) VALUES ($1,$2,$3,$4) RETURNING *`, [name, description, img, genre])
 
         res.send(newPlaylist.rows[0])
     } catch (err) {
@@ -42,7 +49,7 @@ async function updatePlaylist(req, res) {
         const { id } = req.params
         const { name } = req.body
         const updatedPlaylist = await pool.query(`
-            UPDATE ${TABLE_NAME} SET name = $1
+            UPDATE ${PLAYLIST_TABLE} SET name = $1
             WHERE _id = $2 RETURNING *
             `, [name, id])
         res.send(updatedPlaylist.rows[0])
@@ -57,7 +64,7 @@ async function removePlaylist(req, res) {
     try {
         const { id } = req.params
         await pool.query(`
-            DELETE FROM ${TABLE_NAME} WHERE _id=$1;
+            DELETE FROM ${PLAYLIST_TABLE} WHERE _id=$1;
             `, [id])
         res.send()
 

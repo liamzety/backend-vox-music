@@ -5,7 +5,7 @@ const pool = new Pool({
     password: 'dragond1',
     host: 'localhost',
     port: 5432,
-    database: 'template'
+    database: 'vox'
 })
 
 module.exports = pool;
