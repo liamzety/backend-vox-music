@@ -5,10 +5,10 @@ const SONG_TABLE = "song"
 // CREATE
 async function addSong(req, res) {
     try {
-        const { title, url, playlist_id } = req.body
+        const { title, url, video_id, playlist_id } = req.body
         const newSong = await pool.query(`
             INSERT INTO ${SONG_TABLE} 
-            (title,url,playlist_id) VALUES ($1,$2,$3) RETURNING *`, [title, url, playlist_id])
+            (title,url,video_id,playlist_id) VALUES ($1,$2,$3,$4) RETURNING *`, [title, url, video_id, playlist_id])
         res.send(newSong.rows[0])
     } catch (err) {
         console.error(err.message)
