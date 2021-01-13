@@ -16,11 +16,11 @@ app.use(session({
     cookie: { secure: false }
 }))
 
-const corsOptions = {
-    origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
-    credentials: true
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//     origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
+//     credentials: true
+// };
+app.use(cors());
 
 const addPlaylistRoutes = require('./api/playlist/playlist.route')
 const addSongRoutes = require('./api/song/song.route')
