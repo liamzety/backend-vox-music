@@ -4,8 +4,6 @@ const PLAYLIST_TABLE = "playlist"
 const SONG_TABLE = "song"
 // GET LIST
 async function getPlaylists(req, res) {
-    console.log('getting',)
-    console.log('pool:', pool)
     try {
         const playlists = await pool.query(`SELECT * FROM ${PLAYLIST_TABLE}`)
         res.send(playlists.rows)
@@ -34,8 +32,6 @@ async function getPlaylist(req, res) {
 }
 // CREATE
 async function addPlaylist(req, res) {
-    console.log('creating',)
-    console.log('pool:', pool)
     try {
         const { name, description, img, genre } = req.body
         const newPlaylist = await pool.query(`
