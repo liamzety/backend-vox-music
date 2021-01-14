@@ -7,10 +7,9 @@ const Pool = require('pg').Pool;
 //     port: 5432,
 //     database: 'vox'
 // })
-
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
-    ssl: process.env.DATABASE_URL ? true : false
+    ssl: false
 })
 pool.connect();
 
