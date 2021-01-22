@@ -23,14 +23,16 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+const userRoutes = require('./api/user/user.route')
+const authRoutes = require('./api/auth/auth.route')
 const addPlaylistRoutes = require('./api/playlist/playlist.route')
 const addSongRoutes = require('./api/song/song.route')
-// const authRoutes = require('./api/auth/auth.routes')
 // const connectSockets = require('./api/socket/socket.routes')
 
 
 // // routes
-// app.use('/api/auth', authRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/auth', authRoutes)
 app.use('/api/playlist', addPlaylistRoutes)
 app.use('/api/song', addSongRoutes)
 // // connectSockets(io)
