@@ -11,7 +11,7 @@ const http = require('http').createServer(app);
 // Express App Config
 app.use(bodyParser.json())
 app.use(session({
-    secret: 'puki muki secret stuff',
+    secret: 'voxing the vox in the box',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }

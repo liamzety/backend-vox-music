@@ -8,11 +8,15 @@ module.exports = {
 }
 const USER_TABLE = "users"
 
-async function query(email) {
+async function query(filterBy) {
+    const { email, id } = filterBy
     let users;
     try {
         if (email) {
             users = await pool.query(`SELECT * FROM ${USER_TABLE} WHERE email = $1`, [email])
+            return (users.rows[0])
+        } else if (id) {
+            users = await pool.query(`SELECT * FROM ${USER_TABLE} WHERE _id = $1`, [id])
             return (users.rows[0])
         } else {
             users = await pool.query(`SELECT * FROM ${USER_TABLE}`)
@@ -26,7 +30,7 @@ async function query(email) {
 async function add(user) {
     const { name, imgUrl, email, password } = user
     try {
-        if (await query(email)) throw { msg: 'email taken.' }
+        if (await query({ email })) throw { msg: 'email taken.' }
         const newUser = await pool.query(`
         INSERT INTO ${USER_TABLE} 
         (name,imgUrl,email,password) VALUES ($1,$2,$3,$4) RETURNING *`, [name, imgUrl, email, password])
