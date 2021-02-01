@@ -38,9 +38,9 @@ async function add({ title, url, video_id, playlist_id }) {
 async function update(id, user) {
     try {
         const updatedUser = await pool.query(`
-            UPDATE ${USER_TABLE} SET name = $1 , imgUrl = $2
+            UPDATE ${USER_TABLE} SET name = $1 , profile_img = $2
             WHERE _id = $3 RETURNING *
-            `, [user.name, user.imgUrl, id])
+            `, [user.name, user.profile_img, id])
         return (updatedUser.rows[0])
 
     } catch (err) {

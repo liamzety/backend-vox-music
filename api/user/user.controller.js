@@ -15,7 +15,8 @@ async function getUser(req, res) {
         res.status(200).send(user)
     } catch (err) {
         console.log('err user.controller', err)
-        res.status(400).send('something went wrong.')
+        res.status(400).send({ err, msg: 'Something went wrong.' })
+
     }
 }
 // CREATE
@@ -25,7 +26,8 @@ async function addUser(req, res) {
         res.status(200).send(newUser)
     } catch (err) {
         console.log('err user.controller', err)
-        res.status(400).send({ message: err })
+        res.status(400).send({ err, msg: 'Something went wrong.' })
+
     }
 }
 
@@ -38,7 +40,8 @@ async function removeUser(req, res) {
     } catch (err) {
         console.log('err user.controller', err)
 
-        res.status(400).send('something went wrong.')
+        res.status(400).send({ err, msg: 'Something went wrong.' })
+
     }
 }
 
@@ -52,7 +55,8 @@ async function updateUser(req, res) {
     } catch (err) {
         console.log('err user.controller', err)
 
-        res.status(400).send('something went wrong.')
+        res.status(400).send({ err, msg: 'Something went wrong.' })
+
     }
 }
 

@@ -6,7 +6,7 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 3030;
 const http = require('http').createServer(app);
-// const io = require('socket.io')(http);
+const io = require('socket.io')(http);
 
 // Express App Config
 app.use(bodyParser.json())
@@ -27,7 +27,7 @@ const userRoutes = require('./api/user/user.route')
 const authRoutes = require('./api/auth/auth.route')
 const addPlaylistRoutes = require('./api/playlist/playlist.route')
 const addSongRoutes = require('./api/song/song.route')
-// const connectSockets = require('./api/socket/socket.routes')
+const connectSockets = require('./api/socket/socket.routes')
 
 
 // // routes
@@ -35,7 +35,7 @@ app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/playlist', addPlaylistRoutes)
 app.use('/api/song', addSongRoutes)
-// // connectSockets(io)
+connectSockets(io)
 
 
 http.listen(port, () => {

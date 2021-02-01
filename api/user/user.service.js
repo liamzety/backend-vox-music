@@ -28,12 +28,12 @@ async function query(filterBy) {
 }
 
 async function add(user) {
-    const { name, imgUrl, email, password } = user
+    const { name, profile_img, email, password } = user
     try {
-        if (await query({ email })) throw { msg: 'email taken.' }
+        if (await query({ email })) throw { msg: 'This email is already registered.' }
         const newUser = await pool.query(`
         INSERT INTO ${USER_TABLE} 
-        (name,imgUrl,email,password) VALUES ($1,$2,$3,$4) RETURNING *`, [name, imgUrl, email, password])
+        (name,profile_img,email,password) VALUES ($1,$2,$3,$4) RETURNING *`, [name, profile_img, email, password])
         return newUser.rows[0]
     } catch (err) {
         throw err
@@ -43,9 +43,9 @@ async function add(user) {
 async function update(id, user) {
     try {
         const updatedUser = await pool.query(`
-            UPDATE ${USER_TABLE} SET name = $1 , imgUrl = $2
+            UPDATE ${USER_TABLE} SET name = $1 , profile_img = $2
             WHERE _id = $3 RETURNING *
-            `, [user.name, user.imgUrl, id])
+            `, [user.name, user.profile_img, id])
         return (updatedUser.rows[0])
 
     } catch (err) {

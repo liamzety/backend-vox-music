@@ -2,20 +2,20 @@ module.exports = connectSockets
 
 function connectSockets(io) {
     io.on('connection', socket => {
-
-        socket.on('chat templatePage', templatePage => {
-            if (socket.templatePage) {
-                socket.leave(socket.templatePage)
+        socket.on('chat connectRoom', roomId => {
+            console.log('Room connected.', roomId)
+            if (socket.roomId) {
+                socket.leave(socket.roomId)
             }
-            socket.join(templatePage)
-            socket.templatePage = templatePage;
+            socket.join(roomId)
+            socket.roomId = roomId;
         })
         socket.on('chat newMsg', msg => {
-            io.to(socket.templatePage).emit('chat addMsg', msg)
+            io.to(socket.roomId).emit('chat addMsg', msg)
         })
         socket.on('chat typing', loggedUser => {
 
-            io.to(socket.templatePage).emit('chat showTyping', loggedUser)
+            io.to(socket.roomId).emit('chat showTyping', loggedUser)
         })
     })
 }

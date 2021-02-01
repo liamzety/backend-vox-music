@@ -8,7 +8,7 @@ async function login(req, res) {
     } catch (err) {
         console.log('err auth.controller', err)
 
-        res.status(401).send(err)
+        res.status(401).send({ msg: err.msg } || { err, msg: 'Something went wrong.' })
     }
 }
 
@@ -21,7 +21,7 @@ async function signup(req, res) {
     } catch (err) {
         console.log('err auth.controller', err)
 
-        res.status(500).send(err)
+        res.status(500).send({ msg: err.msg } || { err, msg: 'Something went wrong.' })
     }
 }
 async function logout(req, res) {
@@ -31,7 +31,7 @@ async function logout(req, res) {
     } catch (err) {
         console.log('err auth.controller', err)
 
-        res.status(500).send(err)
+        res.status(500).send({ err, msg: 'Something went wrong.' })
     }
 }
 
