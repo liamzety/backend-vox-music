@@ -1,7 +1,6 @@
 import pg from 'pg'
 export const pool = new pg.Pool({
-    connectionString: 'postgresql://postgres:dragond1@localhost:5432/vox',
-    // process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
+    connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
     ssl: false
 })
 pool.connect((err, client, release) => {

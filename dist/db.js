@@ -6,8 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pool = void 0;
 const pg_1 = __importDefault(require("pg"));
 exports.pool = new pg_1.default.Pool({
-    connectionString: 'postgresql://postgres:dragond1@localhost:5432/vox',
-    // process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
+    connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
     ssl: false
 });
 exports.pool.connect((err, client, release) => {
