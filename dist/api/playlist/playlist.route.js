@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.playlistRoutes = void 0;
 const express_1 = __importDefault(require("express"));
-const requireAuth_middleware_js_1 = require("../../middlewares/requireAuth.middleware.js");
+const requireAuth_middleware_1 = require("../../middlewares/requireAuth.middleware");
 const playlist_controller_js_1 = require("./playlist.controller.js");
-const { requireAuth, requireAdmin } = requireAuth_middleware_js_1.requireAuthMiddleware;
-const { getPlaylists, getPlaylist, addPlaylist, updatePlaylist, removePlaylist } = playlist_controller_js_1.playlistController;
+const { requireAuth, requireAdmin } = requireAuth_middleware_1.requireAuthMiddleware;
+const { getPlaylists, getPlaylist, addPlaylist, updatePlaylist, removePlaylist, } = playlist_controller_js_1.playlistController;
 const router = express_1.default.Router();
 router.get('/', getPlaylists);
 router.get('/:id', getPlaylist);

@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
+
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -11,6 +12,13 @@ import http from 'http';
 const server = http.createServer(app);
 import socketio from 'socket.io';
 const io = socketio(server);
+
+// Session Declaration merging
+declare module 'express-session' {
+  export interface SessionData {
+    user: { [key: string]: any };
+  }
+}
 
 // Express App Config
 app.use(bodyParser.json());

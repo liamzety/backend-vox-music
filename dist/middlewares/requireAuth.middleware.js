@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.requireAuthMiddleware = void 0;
 exports.requireAuthMiddleware = {
     requireAuth,
-    requireAdmin
+    requireAdmin,
 };
 function requireAuth(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {

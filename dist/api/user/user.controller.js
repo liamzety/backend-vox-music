@@ -15,7 +15,7 @@ exports.userController = {
     addUser,
     removeUser,
     updateUser,
-    getUser
+    getUser,
 };
 // GET
 function getUser(req, res) {
@@ -26,8 +26,8 @@ function getUser(req, res) {
             res.status(200).send(user);
         }
         catch (err) {
-            console.log('err user.controller', err);
-            res.status(400).send({ err, msg: 'Something went wrong.' });
+            console.error('err, user.controller -> getUser():', err.message);
+            res.status(400).send({ err, message: 'Something went wrong.' });
         }
     });
 }
@@ -39,8 +39,8 @@ function addUser(req, res) {
             res.status(200).send(newUser);
         }
         catch (err) {
-            console.log('err user.controller', err);
-            res.status(400).send({ err, msg: 'Something went wrong.' });
+            console.error('err, user.controller -> addUser():', err.message);
+            res.status(400).send({ err, message: 'Something went wrong.' });
         }
     });
 }
@@ -53,8 +53,8 @@ function removeUser(req, res) {
             res.status(200).send('User Deleted Succusfully');
         }
         catch (err) {
-            console.log('err user.controller', err);
-            res.status(400).send({ err, msg: 'Something went wrong.' });
+            console.error('err, user.controller -> removeUser():', err.message);
+            res.status(400).send({ err, message: 'Something went wrong.' });
         }
     });
 }
@@ -68,8 +68,8 @@ function updateUser(req, res) {
             res.status(200).send(userUpdated);
         }
         catch (err) {
-            console.log('err user.controller', err);
-            res.status(400).send({ err, msg: 'Something went wrong.' });
+            console.error('err, user.controller -> updateUser():', err.message);
+            res.status(400).send({ err, message: 'Something went wrong.' });
         }
     });
 }

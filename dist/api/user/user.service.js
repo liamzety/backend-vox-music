@@ -15,29 +15,34 @@ exports.userService = {
     add,
     query,
     update,
-    remove
+    remove,
 };
-const USER_TABLE = "users";
+const USER_TABLE = 'users';
 function query(filterBy) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, id } = filterBy;
         let users;
         try {
             if (email) {
-                users = yield db_js_1.pool.query(`SELECT * FROM ${USER_TABLE} WHERE email = $1`, [email]);
-                return (users.rows[0]);
+                users = yield db_js_1.pool.query(`SELECT * FROM ${USER_TABLE} WHERE email = $1`, [
+                    email,
+                ]);
+                return users.rows[0];
             }
             else if (id) {
-                users = yield db_js_1.pool.query(`SELECT * FROM ${USER_TABLE} WHERE _id = $1`, [id]);
-                return (users.rows[0]);
+                users = yield db_js_1.pool.query(`SELECT * FROM ${USER_TABLE} WHERE _id = $1`, [
+                    id,
+                ]);
+                return users.rows[0];
             }
             else {
                 users = yield db_js_1.pool.query(`SELECT * FROM ${USER_TABLE}`);
-                return (users.rows);
+                return users.rows;
             }
         }
         catch (err) {
-            console.error('err from user.service:', err.message);
+            console.error('err, user.service -> query():', err.message);
+            throw { message: 'Could not add user/s.' };
         }
     });
 }
@@ -46,13 +51,14 @@ function add(user) {
         const { name, profile_img, email, password } = user;
         try {
             if (yield query({ email }))
-                throw { msg: 'This email is already registered.' };
+                throw { message: 'This email is already registered.' };
             const newUser = yield db_js_1.pool.query(`
         INSERT INTO ${USER_TABLE} 
         (name,profile_img,email,password) VALUES ($1,$2,$3,$4) RETURNING *`, [name, profile_img, email, password]);
             return newUser.rows[0];
         }
         catch (err) {
+            console.error('err, user.service -> add():', err.message);
             throw err;
         }
     });
@@ -64,10 +70,11 @@ function update(id, user) {
             UPDATE ${USER_TABLE} SET name = $1 , profile_img = $2
             WHERE _id = $3 RETURNING *
             `, [user.name, user.profile_img, id]);
-            return (updatedUser.rows[0]);
+            return updatedUser.rows[0];
         }
         catch (err) {
-            console.error(err.message);
+            console.error('err, user.service -> update():', err.message);
+            throw { message: 'Could not update user.' };
         }
     });
 }
@@ -80,7 +87,8 @@ function remove(id) {
             return;
         }
         catch (err) {
-            throw err;
+            console.error('err, user.service -> remove():', err.message);
+            throw { message: 'Could not remove user.' };
         }
     });
 }

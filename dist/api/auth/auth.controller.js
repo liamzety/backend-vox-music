@@ -10,48 +10,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
-const auth_service_js_1 = require("./auth.service.js");
+const auth_service_1 = require("./auth.service");
 exports.authController = {
     login,
     signup,
-    logout
+    logout,
 };
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const user = yield auth_service_js_1.authService.login(req.body);
+            const user = yield auth_service_1.authService.login(req.body);
             req.session.user = user;
             res.status(200).send(user);
         }
         catch (err) {
-            console.log('err auth.controller', err);
-            res.status(401).send({ msg: err.msg } || { err, msg: 'Something went wrong.' });
+            console.error('err, auth.controller -> login():', err.message);
+            res
+                .status(401)
+                .send({ message: err.message } || { err, message: 'Something went wrong.' });
         }
     });
 }
 function signup(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield auth_service_js_1.authService.signup(req.body);
-            const user = yield auth_service_js_1.authService.login(req.body);
+            yield auth_service_1.authService.signup(req.body);
+            const user = yield auth_service_1.authService.login(req.body);
             req.session.user = user;
             res.status(200).send(user);
         }
         catch (err) {
-            console.log('err auth.controller', err);
-            res.status(500).send({ msg: err.msg } || { err, msg: 'Something went wrong.' });
+            console.error('err, auth.controller -> signup():', err.message);
+            res
+                .status(500)
+                .send({ message: err.message } || { err, message: 'Something went wrong.' });
         }
     });
 }
 function logout(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            req.session.destroy();
+            req.session.destroy((err) => {
+                if (err)
+                    console.log('err', err);
+            });
             res.status(200).send('Logged out successfully');
         }
         catch (err) {
-            console.log('err auth.controller', err);
-            res.status(500).send({ err, msg: 'Something went wrong.' });
+            console.error('err, auth.controller -> logout():', err.message);
+            res.status(500).send({ err, message: 'Something went wrong.' });
         }
     });
 }

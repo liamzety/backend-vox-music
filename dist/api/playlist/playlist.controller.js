@@ -10,25 +10,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.playlistController = void 0;
-const db_js_1 = require("../../db.js");
-const PLAYLIST_TABLE = "playlist";
-const SONG_TABLE = "song";
+const playlist_service_1 = require("./playlist.service");
 exports.playlistController = {
     getPlaylists,
     getPlaylist,
     addPlaylist,
     updatePlaylist,
-    removePlaylist
+    removePlaylist,
 };
 // GET LIST
 function getPlaylists(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const playlists = yield db_js_1.pool.query(`SELECT * FROM ${PLAYLIST_TABLE}`);
-            res.send(playlists.rows);
+            const playlists = yield playlist_service_1.playlistService.query();
+            res.send(playlists);
         }
         catch (err) {
-            console.error(err.message);
+            console.error('err, playlist.controller -> getPlaylists():', err.message);
+            throw err;
         }
     });
 }
@@ -37,20 +36,14 @@ function getPlaylist(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params;
-            let playlist = yield db_js_1.pool.query(`
-        SELECT * FROM ${PLAYLIST_TABLE}
-         WHERE _id = $1
-         `, [id]);
-            let playlistSongs = yield db_js_1.pool.query(`
-        SELECT * FROM ${SONG_TABLE}
-         WHERE playlist_id = $1
-         `, [id]);
-            playlist = playlist.rows[0];
-            playlistSongs = playlistSongs.rows;
+            const { playlist, playlistSongs } = yield playlist_service_1.playlistService.query({
+                id,
+            });
             res.status(200).send({ playlist, playlistSongs });
         }
         catch (err) {
-            console.error(err.message);
+            console.error('err, playlist.controller -> getPlaylist():', err.message);
+            throw err;
         }
     });
 }
@@ -59,13 +52,17 @@ function addPlaylist(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name, description, img, genre } = req.body;
-            const newPlaylist = yield db_js_1.pool.query(`
-            INSERT INTO ${PLAYLIST_TABLE} 
-            (name,description,img,genre) VALUES ($1,$2,$3,$4) RETURNING *`, [name, description, img, genre]);
-            res.send(newPlaylist.rows[0]);
+            const newPlaylist = yield playlist_service_1.playlistService.create({
+                name,
+                description,
+                img,
+                genre,
+            });
+            res.send(newPlaylist);
         }
         catch (err) {
-            console.error(err.message);
+            console.error('err, playlist.controller -> addPlaylist():', err.message);
+            throw err;
         }
     });
 }
@@ -75,14 +72,12 @@ function updatePlaylist(req, res) {
         try {
             const { id } = req.params;
             const { name } = req.body;
-            const updatedPlaylist = yield db_js_1.pool.query(`
-            UPDATE ${PLAYLIST_TABLE} SET name = $1
-            WHERE _id = $2 RETURNING *
-            `, [name, id]);
-            res.send(updatedPlaylist.rows[0]);
+            const updatedPlaylist = playlist_service_1.playlistService.update({ id, name });
+            res.send(updatedPlaylist);
         }
         catch (err) {
-            console.error(err.message);
+            console.error('err, playlist.controller -> updatePlaylist():', err.message);
+            throw err;
         }
     });
 }
@@ -91,13 +86,12 @@ function removePlaylist(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params;
-            yield db_js_1.pool.query(`
-            DELETE FROM ${PLAYLIST_TABLE} WHERE _id=$1;
-            `, [id]);
+            yield playlist_service_1.playlistService.remove({ id });
             res.send();
         }
         catch (err) {
-            console.error(err.message);
+            console.error('err, playlist.controller -> removePlaylist():', err.message);
+            throw err;
         }
     });
 }

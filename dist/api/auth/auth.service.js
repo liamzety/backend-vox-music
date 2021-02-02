@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authService = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const user_service_js_1 = require("../user/user.service.js");
+const user_service_1 = require("../user/user.service");
 exports.authService = {
     signup,
     login,
@@ -22,28 +22,39 @@ exports.authService = {
 const saltRounds = 10;
 function login(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!user.email || !user.password)
-            return Promise.reject({ msg: 'Email and Password are required!' });
-        const userFound = yield user_service_js_1.userService.query({ email: user.email });
-        if (!userFound)
-            return Promise.reject({ msg: 'Invalid Email' });
-        const match = yield bcrypt_1.default.compare(user.password.toString(), userFound.password);
-        if (!match)
-            return Promise.reject({ msg: 'Invalid Password' });
-        delete userFound.password;
-        return userFound;
+        try {
+            if (!user.email || !user.password) {
+                throw { message: 'Email and Password are required!' };
+            }
+            const userFound = yield user_service_1.userService.query({ email: user.email });
+            if (!userFound)
+                throw { message: 'Invalid Email' };
+            const match = yield bcrypt_1.default.compare(user.password.toString(), userFound.password);
+            if (!match)
+                throw { message: 'Invalid Password' };
+            delete userFound.password;
+            return userFound;
+        }
+        catch (err) {
+            throw err;
+        }
     });
 }
 function signup(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!user.password)
-            return Promise.reject({ msg: 'Password field is required.' });
-        if (!user.email)
-            return Promise.reject({ msg: 'Email field is required.' });
-        if (!user.name)
-            return Promise.reject({ msg: 'Name field is required.' });
-        const hash = yield bcrypt_1.default.hash(user.password.toString(), saltRounds);
-        return yield user_service_js_1.userService.add(Object.assign(Object.assign({}, user), { password: hash }));
+        try {
+            if (!user.password)
+                throw { message: 'Password field is required.' };
+            if (!user.email)
+                throw { message: 'Email field is required.' };
+            if (!user.name)
+                throw { message: 'Name field is required.' };
+            const hash = yield bcrypt_1.default.hash(user.password.toString(), saltRounds);
+            return yield user_service_1.userService.add(Object.assign(Object.assign({}, user), { password: hash }));
+        }
+        catch (err) {
+            throw err;
+        }
     });
 }
 //# sourceMappingURL=auth.service.js.map

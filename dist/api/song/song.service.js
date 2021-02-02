@@ -10,36 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.songService = void 0;
-const db_js_1 = require("../../db.js");
+const db_1 = require("../../db");
 exports.songService = {
     add,
-    query,
-    update,
-    remove
+    remove,
 };
-const SONG_TABLE = "song";
-function query(email) {
+const SONG_TABLE = 'song';
+function add(songData) {
     return __awaiter(this, void 0, void 0, function* () {
-        let users;
+        const { title, url, video_id, playlist_id } = songData;
         try {
-            if (email) {
-                users = yield db_js_1.pool.query(`SELECT * FROM ${USER_TABLE} WHERE email = $1`, [email]);
-                return (users.rows[0]);
-            }
-            else {
-                users = yield db_js_1.pool.query(`SELECT * FROM ${USER_TABLE}`);
-                return (users.rows);
-            }
-        }
-        catch (err) {
-            console.error('err from user.service:', err.message);
-        }
-    });
-}
-function add({ title, url, video_id, playlist_id }) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const newSong = yield db_js_1.pool.query(`
+            const newSong = yield db_1.pool.query(`
             INSERT INTO ${SONG_TABLE} 
             (title,url,video_id,playlist_id) VALUES ($1,$2,$3,$4) RETURNING *`, [title, url, video_id, playlist_id]);
             return newSong.rows[0];
@@ -49,24 +30,11 @@ function add({ title, url, video_id, playlist_id }) {
         }
     });
 }
-function update(id, user) {
+function remove(query) {
     return __awaiter(this, void 0, void 0, function* () {
+        const { id } = query;
         try {
-            const updatedUser = yield db_js_1.pool.query(`
-            UPDATE ${USER_TABLE} SET name = $1 , profile_img = $2
-            WHERE _id = $3 RETURNING *
-            `, [user.name, user.profile_img, id]);
-            return (updatedUser.rows[0]);
-        }
-        catch (err) {
-            console.error(err.message);
-        }
-    });
-}
-function remove({ id }) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield db_js_1.pool.query(`
+            yield db_1.pool.query(`
         DELETE FROM ${SONG_TABLE} WHERE _id=$1;
         `, [id]);
             return;

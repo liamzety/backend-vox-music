@@ -1,9 +1,15 @@
+import express from 'express';
+
 export const requireAuthMiddleware = {
   requireAuth,
-  requireAdmin
-}
+  requireAdmin,
+};
 
-async function requireAuth(req, res, next) {
+async function requireAuth(
+  req: express.Request,
+  res: express.Response,
+  next: () => any
+) {
   if (!req.session || !req.session.user) {
     res.status(401).end('Unauthorized!');
     return;
@@ -11,7 +17,11 @@ async function requireAuth(req, res, next) {
   next();
 }
 
-async function requireAdmin(req, res, next) {
+async function requireAdmin(
+  req: express.Request,
+  res: express.Response,
+  next: () => any
+) {
   const user = req.session.user;
   if (!user.isAdmin) {
     res.status(403).end('Unauthorized Enough..');
@@ -19,6 +29,3 @@ async function requireAdmin(req, res, next) {
   }
   next();
 }
-
-
-

@@ -13,7 +13,7 @@ exports.songController = void 0;
 const song_service_js_1 = require("./song.service.js");
 exports.songController = {
     addSong,
-    removeSong
+    removeSong,
 };
 // CREATE
 function addSong(req, res) {
@@ -31,8 +31,9 @@ function addSong(req, res) {
 // DELETE
 function removeSong(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.params;
         try {
-            yield song_service_js_1.songService.remove(req.params);
+            yield song_service_js_1.songService.remove({ id });
             res.status(200).send();
         }
         catch (err) {
