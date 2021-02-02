@@ -10,7 +10,8 @@
     "postinstall": "tsc",
     "watch-node": "nodemon dist/index.js",
     "watch-ts": "tsc -w",
-    "dev": "tsc-watch --AllowJs --outDir ./dist --onSuccess \"nodemon ./dist/index.js\""
+    "dev": "tsc-watch --AllowJs --outDir ./dist --onSuccess \"nodemon ./dist/index.js\"",
+    "deploy": "git add . && git commit -m Heroku && git push heroku main"
   },
   "author": "",
   "license": "ISC",

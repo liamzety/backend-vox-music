@@ -42,7 +42,7 @@ function signup(user) {
             return Promise.reject({ msg: 'Email field is required.' });
         if (!user.name)
             return Promise.reject({ msg: 'Name field is required.' });
-        hash = yield bcrypt_1.default.hash(user.password.toString(), saltRounds);
+        const hash = yield bcrypt_1.default.hash(user.password.toString(), saltRounds);
         return yield user_service_js_1.userService.add(Object.assign(Object.assign({}, user), { password: hash }));
     });
 }
