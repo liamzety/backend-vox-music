@@ -3,7 +3,6 @@ module.exports = connectSockets
 function connectSockets(io) {
     io.on('connection', socket => {
         socket.on('chat connectRoom', roomId => {
-            console.log('Room connected.', roomId)
             if (socket.roomId) {
                 socket.leave(socket.roomId)
             }
