@@ -1,11 +1,11 @@
-const express = require('express')
-const {
-    addSong,
-    removeSong } = require('./song.controller')
+import express from 'express'
+import { songController } from './song.controller.js'
+const { addSong, removeSong } = songController
+
 const router = express.Router()
 
 router.post('/', addSong)
 router.delete('/:id', removeSong)
 
-module.exports = router
+export const songRoutes = router
 

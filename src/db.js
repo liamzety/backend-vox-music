@@ -1,9 +1,18 @@
-const Pool = require('pg').Pool;
-
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
+import pg from 'pg'
+export const pool = new pg.Pool({
+    connectionString: 'postgresql://postgres:dragond1@localhost:5432/vox',
+    // process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
     ssl: false
 })
-pool.connect();
-
-module.exports = pool;
+pool.connect((err, client, release) => {
+    if (err) {
+        return console.error('Error acquiring client', err.stack)
+    }
+    client.query('SELECT NOW()', (err, result) => {
+        release()
+        if (err) {
+            return console.error('Error executing query', err.stack)
+        }
+        console.log(result.rows)
+    })
+})

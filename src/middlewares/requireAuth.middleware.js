@@ -1,3 +1,7 @@
+export const requireAuthMiddleware = {
+  requireAuth,
+  requireAdmin
+}
 
 async function requireAuth(req, res, next) {
   if (!req.session || !req.session.user) {
@@ -17,7 +21,4 @@ async function requireAdmin(req, res, next) {
 }
 
 
-module.exports = {
-  requireAuth,
-  requireAdmin
-}
+

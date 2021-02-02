@@ -1,5 +1,8 @@
-const songService = require('./song.service')
-
+import { songService } from './song.service.js'
+export const songController = {
+    addSong,
+    removeSong
+}
 
 // CREATE
 async function addSong(req, res) {
@@ -26,7 +29,3 @@ async function removeSong(req, res) {
 }
 
 
-module.exports = {
-    addSong,
-    removeSong
-}

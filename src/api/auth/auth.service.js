@@ -1,8 +1,11 @@
-const bcrypt = require('bcrypt')
-const userService = require('../user/user.service')
+import bcrypt from 'bcrypt'
+import { userService } from '../user/user.service.js'
 
+export const authService = {
+    signup,
+    login,
+}
 const saltRounds = 10
-
 async function login(user) {
     if (!user.email || !user.password) return Promise.reject({ msg: 'Email and Password are required!' })
     const userFound = await userService.query({ email: user.email })
@@ -22,7 +25,3 @@ async function signup(user) {
     return await userService.add({ ...user, password: hash })
 }
 
-module.exports = {
-    signup,
-    login,
-}

@@ -1,6 +1,5 @@
-const userService = require('./user.service')
-
-module.exports = {
+import { userService } from './user.service.js'
+export const userController = {
     addUser,
     removeUser,
     updateUser,

@@ -1,6 +1,6 @@
-const pool = require("../../db");
+import { pool } from "../../db.js";
 
-module.exports = {
+export const songService = {
     add,
     query,
     update,

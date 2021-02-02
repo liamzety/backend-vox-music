@@ -1,4 +1,10 @@
-const authService = require('./auth.service')
+import { authService } from './auth.service.js'
+
+export const authController = {
+    login,
+    signup,
+    logout
+}
 
 async function login(req, res) {
     try {
@@ -35,8 +41,3 @@ async function logout(req, res) {
     }
 }
 
-module.exports = {
-    login,
-    signup,
-    logout
-}

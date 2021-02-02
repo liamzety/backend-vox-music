@@ -1,7 +1,16 @@
-const pool = require("../../db");
+import { pool } from '../../db.js'
 
 const PLAYLIST_TABLE = "playlist"
 const SONG_TABLE = "song"
+
+export const playlistController = {
+    getPlaylists,
+    getPlaylist,
+    addPlaylist,
+    updatePlaylist,
+    removePlaylist
+}
+
 // GET LIST
 async function getPlaylists(req, res) {
     try {
@@ -74,10 +83,4 @@ async function removePlaylist(req, res) {
 }
 
 
-module.exports = {
-    getPlaylists,
-    getPlaylist,
-    addPlaylist,
-    updatePlaylist,
-    removePlaylist
-}
+

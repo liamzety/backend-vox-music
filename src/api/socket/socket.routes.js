@@ -1,6 +1,5 @@
-module.exports = connectSockets
 
-function connectSockets(io) {
+export const connectSockets = (io) => {
     io.on('connection', socket => {
         socket.on('chat connectRoom', roomId => {
             if (socket.roomId) {

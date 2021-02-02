@@ -1,6 +1,7 @@
-const express = require('express')
+import express from 'express'
 // const {requireAuth}  = require('../../middlewares/requireAuth.middleware')
-const { login, signup, logout } = require('./auth.controller')
+import { authController } from './auth.controller.js'
+const { login, signup, logout } = authController
 
 const router = express.Router()
 
@@ -9,4 +10,4 @@ router.post('/signup', signup)
 router.post('/logout', logout)
 
 
-module.exports = router
+export const authRoutes = router

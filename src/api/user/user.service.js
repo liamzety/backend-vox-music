@@ -1,6 +1,5 @@
-const pool = require("../../db");
-
-module.exports = {
+import { pool } from '../../db.js'
+export const userService = {
     add,
     query,
     update,

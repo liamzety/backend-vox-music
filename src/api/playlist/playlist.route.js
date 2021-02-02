@@ -1,10 +1,14 @@
-const express = require('express')
-const { requireAuth, requireAdmin } = require('../../middlewares/requireAuth.middleware')
+import express from 'express'
+import { requireAuthMiddleware } from '../../middlewares/requireAuth.middleware.js'
+import { playlistController } from './playlist.controller.js'
+
+const { requireAuth, requireAdmin } = requireAuthMiddleware
 const { getPlaylists,
     getPlaylist,
     addPlaylist,
     updatePlaylist,
-    removePlaylist } = require('./playlist.controller')
+    removePlaylist } = playlistController
+
 const router = express.Router()
 
 router.get('/', getPlaylists)
@@ -13,6 +17,7 @@ router.put('/:id', updatePlaylist)
 router.post('/', addPlaylist)
 router.delete('/:id', removePlaylist)
 
-module.exports = router
+export const playlistRoutes = router
+
 
 

@@ -1,45 +1,51 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const cors = require('cors')
-require('dotenv').config()
-const app = express()
+import express from 'express';
+import bodyParser from 'body-parser';
+import session from 'express-session';
+import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const app = express();
 const port = process.env.PORT || 3030;
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+import http from 'http';
+const server = http.createServer(app);
+import socketio from 'socket.io';
+const io = socketio(server);
 
 // Express App Config
-app.use(bodyParser.json())
-app.use(session({
+app.use(bodyParser.json());
+app.use(
+  session({
     secret: 'voxing the vox in the box',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
-}))
+    cookie: { secure: false },
+  })
+);
 
 const corsOptions = {
-    origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
-    credentials: true
+  origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
-const userRoutes = require('./api/user/user.route')
-const authRoutes = require('./api/auth/auth.route')
-const addPlaylistRoutes = require('./api/playlist/playlist.route')
-const addSongRoutes = require('./api/song/song.route')
-const connectSockets = require('./api/socket/socket.routes')
-
-
+// @ts-ignore
+import { userRoutes } from './api/user/user.route.js';
+// @ts-ignore
+import { authRoutes } from './api/auth/auth.route.js';
+// @ts-ignore
+import { playlistRoutes } from './api/playlist/playlist.route.js';
+// @ts-ignore
+import { songRoutes } from './api/song/song.route.js';
+// @ts-ignore
+import { connectSockets } from './api/socket/socket.routes.js';
 // // routes
-app.use('/api/user', userRoutes)
-app.use('/api/auth', authRoutes)
-app.use('/api/playlist', addPlaylistRoutes)
-app.use('/api/song', addSongRoutes)
-connectSockets(io)
+app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/playlist', playlistRoutes);
+app.use('/api/song', songRoutes);
+connectSockets(io);
 
-
-http.listen(port, () => {
-    (`listening on http://localhost:${port}`)
-})
-
-
+server.listen(port, () => {
+  `listening on http://localhost:${port}`;
+});
