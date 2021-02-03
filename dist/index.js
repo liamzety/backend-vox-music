@@ -45,6 +45,6 @@ app.use('/api/playlist', playlist_route_js_1.playlistRoutes);
 app.use('/api/song', song_route_js_1.songRoutes);
 socket_routes_js_1.connectSockets(io);
 server.listen(port, () => {
-    `listening on http://localhost:${port}`;
+    console.log(`listening on http://localhost:${port}`);
 });
 //# sourceMappingURL=index.js.map

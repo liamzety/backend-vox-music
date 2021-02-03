@@ -61,15 +61,24 @@ async function create(playlistData: {
     throw { message: 'Could not create playlist.' };
   }
 }
-async function update(query: { id: string; name: string }) {
-  const { id, name } = query;
+async function update(query: {
+  _id: string;
+  name: string;
+  description: string;
+  genre: string;
+  img: string;
+}) {
+  const { _id, name, description, genre, img } = query;
   try {
     const updatedPlaylist = await pool.query(
       `
-              UPDATE ${PLAYLIST_TABLE} SET name = $1
-              WHERE _id = $2 RETURNING *
+              UPDATE ${PLAYLIST_TABLE} SET name = $2,
+              description = $3,
+              genre = $4,
+              img = $5
+              WHERE _id = $1 RETURNING *
               `,
-      [name, id]
+      [_id, name, description, genre, img]
     );
 
     return updatedPlaylist.rows[0];

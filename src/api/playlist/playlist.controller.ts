@@ -55,9 +55,7 @@ async function addPlaylist(req: express.Request, res: express.Response) {
 // UPDATE
 async function updatePlaylist(req: express.Request, res: express.Response) {
   try {
-    const { id } = req.params;
-    const { name } = req.body;
-    const updatedPlaylist = playlistService.update({ id, name });
+    const updatedPlaylist = await playlistService.update(req.body);
     res.send(updatedPlaylist);
   } catch (err) {
     console.error('err, playlist.controller -> updatePlaylist():', err.message);

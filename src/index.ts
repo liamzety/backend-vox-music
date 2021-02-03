@@ -55,5 +55,5 @@ app.use('/api/song', songRoutes);
 connectSockets(io);
 
 server.listen(port, () => {
-  `listening on http://localhost:${port}`;
+  console.log(`listening on http://localhost:${port}`);
 });

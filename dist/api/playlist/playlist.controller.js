@@ -70,9 +70,7 @@ function addPlaylist(req, res) {
 function updatePlaylist(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = req.params;
-            const { name } = req.body;
-            const updatedPlaylist = playlist_service_1.playlistService.update({ id, name });
+            const updatedPlaylist = yield playlist_service_1.playlistService.update(req.body);
             res.send(updatedPlaylist);
         }
         catch (err) {
