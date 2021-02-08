@@ -46,14 +46,15 @@ async function create(playlistData: {
   description: string;
   img: string;
   genre: string;
+  created_by: string;
 }) {
-  const { name, description, img, genre } = playlistData;
+  const { name, description, img, genre, created_by } = playlistData;
   try {
     const newPlaylist = await pool.query(
       `
               INSERT INTO ${PLAYLIST_TABLE} 
-              (name,description,img,genre) VALUES ($1,$2,$3,$4) RETURNING *`,
-      [name, description, img, genre]
+              (name,description,img,genre,created_by) VALUES ($1,$2,$3,$4,$5) RETURNING *`,
+      [name, description, img, genre, created_by]
     );
     return newPlaylist.rows[0];
   } catch (err) {

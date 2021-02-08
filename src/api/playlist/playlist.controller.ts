@@ -36,19 +36,18 @@ async function getPlaylist(req: express.Request, res: express.Response) {
 // CREATE
 async function addPlaylist(req: express.Request, res: express.Response) {
   try {
-    const { name, description, img, genre } = req.body;
+    const { name, description, img, genre, created_by } = req.body;
 
     const newPlaylist = await playlistService.create({
       name,
       description,
       img,
       genre,
+      created_by,
     });
-
     res.send(newPlaylist);
   } catch (err) {
     console.error('err, playlist.controller -> addPlaylist():', err.message);
-
     throw err;
   }
 }

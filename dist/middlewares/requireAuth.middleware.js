@@ -12,25 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.requireAuthMiddleware = void 0;
 exports.requireAuthMiddleware = {
     requireAuth,
-    requireAdmin,
 };
 function requireAuth(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!req.session || !req.session.user) {
-            res.status(401).end('Unauthorized!');
-            return;
+        try {
+            if (!req.session || !req.session.user) {
+                throw { message: 'You need to be logged in.' };
+            }
+            next();
         }
-        next();
-    });
-}
-function requireAdmin(req, res, next) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const user = req.session.user;
-        if (!user.isAdmin) {
-            res.status(403).end('Unauthorized Enough..');
-            return;
+        catch (err) {
+            console.error('Error, requireAuth.middleware.ts -> function: ', err.message);
+            res.status(403).send({ message: err.message });
         }
-        next();
     });
 }
 //# sourceMappingURL=requireAuth.middleware.js.map

@@ -51,12 +51,13 @@ function getPlaylist(req, res) {
 function addPlaylist(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { name, description, img, genre } = req.body;
+            const { name, description, img, genre, created_by } = req.body;
             const newPlaylist = yield playlist_service_1.playlistService.create({
                 name,
                 description,
                 img,
                 genre,
+                created_by,
             });
             res.send(newPlaylist);
         }

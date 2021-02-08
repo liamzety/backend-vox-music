@@ -2,7 +2,6 @@ import express from 'express';
 
 export const requireAuthMiddleware = {
   requireAuth,
-  requireAdmin,
 };
 
 async function requireAuth(
@@ -10,22 +9,17 @@ async function requireAuth(
   res: express.Response,
   next: () => any
 ) {
-  if (!req.session || !req.session.user) {
-    res.status(401).end('Unauthorized!');
-    return;
-  }
-  next();
-}
+  try {
+    if (!req.session || !req.session.user) {
+      throw { message: 'You need to be logged in.' };
+    }
+    next();
+  } catch (err) {
+    console.error(
+      'Error, requireAuth.middleware.ts -> function: ',
+      err.message
+    );
 
-async function requireAdmin(
-  req: express.Request,
-  res: express.Response,
-  next: () => any
-) {
-  const user = req.session.user;
-  if (!user.isAdmin) {
-    res.status(403).end('Unauthorized Enough..');
-    return;
+    res.status(403).send({ message: err.message });
   }
-  next();
 }
