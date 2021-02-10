@@ -22,14 +22,20 @@ declare module 'express-session' {
 
 // Express App Config
 app.use(bodyParser.json());
-app.use(
-  session({
-    secret: 'voxing the vox in the box',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
+
+const sess = {
+  secret: 'voxing the vox in the box',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false },
+};
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+  sess.cookie.secure = true; // serve secure cookies
+}
+
+app.use(session(sess));
 
 const corsOptions = {
   origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],

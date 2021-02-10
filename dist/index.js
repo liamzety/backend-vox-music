@@ -17,12 +17,17 @@ const socket_io_1 = __importDefault(require("socket.io"));
 const io = socket_io_1.default(server);
 // Express App Config
 app.use(body_parser_1.default.json());
-app.use(express_session_1.default({
+const sess = {
     secret: 'voxing the vox in the box',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
-}));
+};
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    sess.cookie.secure = true; // serve secure cookies
+}
+app.use(express_session_1.default(sess));
 const corsOptions = {
     origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
     credentials: true,
