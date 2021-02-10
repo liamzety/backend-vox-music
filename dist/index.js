@@ -21,7 +21,7 @@ app.use(express_session_1.default({
     secret: 'voxing the vox in the box',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { secure: false },
 }));
 const corsOptions = {
     origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
