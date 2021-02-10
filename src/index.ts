@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-const MemoryStore = require('memorystore')(session);
+var FileStore = require('session-file-store')(session);
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -22,28 +22,19 @@ declare module 'express-session' {
 
 // Express App Config
 app.use(bodyParser.json());
+var fileStoreOptions = {};
+
 app.use(
   session({
-    cookie: { maxAge: 86400000 },
-    store: new MemoryStore({
-      checkPeriod: 86400000, // prune expired entries every 24h
-    }),
-    resave: false,
+    store: new FileStore(fileStoreOptions),
     secret: 'keyboard cat',
   })
 );
-const whitelist = ['https://vox-music.netlify.app', 'http://localhost:3000'];
+
 const corsOptions = {
-  origin(origin: any, callback: any) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
   credentials: true,
 };
-app.set('trust proxy', 1);
 app.use(cors(corsOptions));
 
 // @ts-ignore

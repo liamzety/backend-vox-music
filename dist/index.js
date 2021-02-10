@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_session_1 = __importDefault(require("express-session"));
-const MemoryStore = require('memorystore')(express_session_1.default);
+var FileStore = require('session-file-store')(express_session_1.default);
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -18,27 +18,15 @@ const socket_io_1 = __importDefault(require("socket.io"));
 const io = socket_io_1.default(server);
 // Express App Config
 app.use(body_parser_1.default.json());
+var fileStoreOptions = {};
 app.use(express_session_1.default({
-    cookie: { maxAge: 86400000 },
-    store: new MemoryStore({
-        checkPeriod: 86400000,
-    }),
-    resave: false,
+    store: new FileStore(fileStoreOptions),
     secret: 'keyboard cat',
 }));
-const whitelist = ['https://vox-music.netlify.app', 'http://localhost:3000'];
 const corsOptions = {
-    origin(origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
     credentials: true,
 };
-app.set('trust proxy', 1);
 app.use(cors_1.default(corsOptions));
 // @ts-ignore
 const user_route_js_1 = require("./api/user/user.route.js");
