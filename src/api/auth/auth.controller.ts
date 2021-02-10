@@ -10,6 +10,7 @@ export const authController = {
 async function login(req: express.Request, res: express.Response) {
   try {
     const user = await authService.login(req.body);
+    console.log('REQ.SESSION:', req.session);
     req.session.user = user;
     res.status(200).send(user);
   } catch (err) {

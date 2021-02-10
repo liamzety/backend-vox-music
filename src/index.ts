@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-var FileStore = require('session-file-store')(session);
+
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -22,12 +22,14 @@ declare module 'express-session' {
 
 // Express App Config
 app.use(bodyParser.json());
-var fileStoreOptions = {};
-
 app.use(
   session({
-    store: new FileStore(fileStoreOptions),
-    secret: 'keyboard cat',
+    secret: 'voxing the vox in the box',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+    //@ts-ignore
+    httpOnly: true,
   })
 );
 

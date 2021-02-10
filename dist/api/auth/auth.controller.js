@@ -20,6 +20,7 @@ function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const user = yield auth_service_1.authService.login(req.body);
+            console.log('REQ.SESSION:', req.session);
             req.session.user = user;
             res.status(200).send(user);
         }
