@@ -38,6 +38,7 @@ const corsOptions = {
     },
     credentials: true,
 };
+app.set('trust proxy', 1);
 app.use(cors_1.default(corsOptions));
 // @ts-ignore
 const user_route_js_1 = require("./api/user/user.route.js");
