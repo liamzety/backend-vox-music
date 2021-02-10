@@ -1,8 +1,6 @@
 import express from 'express';
-import { requireAuthMiddleware } from '../../middlewares/requireAuth.middleware';
 import { playlistController } from './playlist.controller.js';
 
-const { requireAuth } = requireAuthMiddleware;
 const {
   getPlaylists,
   getPlaylist,
@@ -15,7 +13,7 @@ const router = express.Router();
 
 router.get('/', getPlaylists);
 router.get('/:id', getPlaylist);
-router.put('/:id', requireAuth, updatePlaylist);
-router.post('/', requireAuth, addPlaylist);
-router.delete('/:id', requireAuth, removePlaylist);
+router.put('/:id', updatePlaylist);
+router.post('/', addPlaylist);
+router.delete('/:id', removePlaylist);
 export const playlistRoutes = router;

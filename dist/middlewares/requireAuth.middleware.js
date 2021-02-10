@@ -16,8 +16,7 @@ exports.requireAuthMiddleware = {
 function requireAuth(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // if (!req.session || !req.session.user) {
-            if (!req.headers.cookie.includes('userId')) {
+            if (!req.session || !req.session.user) {
                 throw { message: 'You need to be logged in.' };
             }
             next();

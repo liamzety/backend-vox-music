@@ -10,8 +10,7 @@ async function requireAuth(
   next: () => any
 ) {
   try {
-    // if (!req.session || !req.session.user) {
-    if (!req.headers.cookie.includes('userId')) {
+    if (!req.session || !req.session.user) {
       throw { message: 'You need to be logged in.' };
     }
     next();
