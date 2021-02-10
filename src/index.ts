@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-
+const MemoryStore = require('memorystore')(session);
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -22,20 +22,16 @@ declare module 'express-session' {
 
 // Express App Config
 app.use(bodyParser.json());
-
-const sess = {
-  secret: 'voxing the vox in the box',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false },
-};
-
-if (app.get('env') === 'production') {
-  app.set('trust proxy', 1); // trust first proxy
-  sess.cookie.secure = true; // serve secure cookies
-}
-
-app.use(session(sess));
+app.use(
+  session({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    }),
+    resave: false,
+    secret: 'keyboard cat',
+  })
+);
 
 const corsOptions = {
   origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],

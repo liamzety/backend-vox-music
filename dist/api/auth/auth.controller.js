@@ -18,6 +18,7 @@ exports.authController = {
 };
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('here!');
         try {
             const user = yield auth_service_1.authService.login(req.body);
             req.session.user = user;

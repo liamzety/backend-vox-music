@@ -8,6 +8,7 @@ export const authController = {
 };
 
 async function login(req: express.Request, res: express.Response) {
+  console.log('here!');
   try {
     const user = await authService.login(req.body);
     req.session.user = user;

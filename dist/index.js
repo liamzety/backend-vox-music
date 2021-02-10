@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_session_1 = __importDefault(require("express-session"));
+const MemoryStore = require('memorystore')(express_session_1.default);
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -17,17 +18,14 @@ const socket_io_1 = __importDefault(require("socket.io"));
 const io = socket_io_1.default(server);
 // Express App Config
 app.use(body_parser_1.default.json());
-const sess = {
-    secret: 'voxing the vox in the box',
+app.use(express_session_1.default({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+        checkPeriod: 86400000,
+    }),
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-};
-if (app.get('env') === 'production') {
-    app.set('trust proxy', 1); // trust first proxy
-    sess.cookie.secure = true; // serve secure cookies
-}
-app.use(express_session_1.default(sess));
+    secret: 'keyboard cat',
+}));
 const corsOptions = {
     origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
     credentials: true,
