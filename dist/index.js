@@ -26,8 +26,16 @@ app.use(express_session_1.default({
     resave: false,
     secret: 'keyboard cat',
 }));
+const whitelist = ['https://vox-music.netlify.app', 'http://localhost:3000'];
 const corsOptions = {
-    origin: ['https://vox-music.netlify.app', 'http://localhost:3000'],
+    origin(origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 };
 app.use(cors_1.default(corsOptions));
