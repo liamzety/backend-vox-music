@@ -10,8 +10,9 @@ async function requireAuth(
   next: () => any
 ) {
   // console.log( req.headers.cookie.includes('userId'));
-  console.log('req.cookies', req.cookies);
+
   try {
+    console.log('requireAuth.middleware -> req.session.user', req.session.user);
     if (!req.session || !req.session.user) {
       throw { message: 'You need to be logged in.' };
     }

@@ -21,7 +21,7 @@ function login(req, res) {
         try {
             const user = yield auth_service_1.authService.login(req.body);
             req.session.user = user;
-            console.log('req.session.user', req.session.user);
+            console.log('auth.controller -> req.session.user', req.session.user);
             res.status(200).send(user);
         }
         catch (err) {
