@@ -27,9 +27,7 @@ app.use(
     secret: 'voxing the vox in the box',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
-    //@ts-ignore
-    httpOnly: true,
+    cookie: { secure: true },
   })
 );
 
