@@ -7,9 +7,11 @@ exports.pool = void 0;
 const pg_1 = __importDefault(require("pg"));
 exports.pool = new pg_1.default.Pool({
     connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
-    ssl: {
-        rejectUnauthorized: false,
-    },
+    ssl: process.env.DATABASE_URL
+        ? {
+            rejectUnauthorized: false,
+        }
+        : false,
 });
 exports.pool.connect((err, client, release) => {
     if (err) {
