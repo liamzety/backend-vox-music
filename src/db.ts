@@ -1,7 +1,7 @@
 import pg from 'pg';
 export const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_DEV,
-  ssl: false,
+  ssl: true,
 });
 pool.connect((err, client, release) => {
   if (err) {
