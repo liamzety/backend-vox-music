@@ -10,28 +10,49 @@ export const playlistService = {
 const PLAYLIST_TABLE = 'playlist';
 const SONG_TABLE = 'song';
 
-async function query(filterBy?: { id?: string }) {
+async function query(filterBy?: {
+  id?: string;
+  favouritePlaylistsIdsFound?: any;
+}) {
   try {
     if (filterBy) {
-      const { id } = filterBy;
-      let playlist = await pool.query(
-        `
-        SELECT * FROM ${PLAYLIST_TABLE}
-         WHERE _id = $1
-         `,
-        [id]
-      );
-      let playlistSongs: any = await pool.query(
-        `
-        SELECT * FROM ${SONG_TABLE}
-         WHERE playlist_id = $1
-         `,
-        [id]
-      );
-      playlist = playlist.rows[0];
-      playlistSongs = playlistSongs.rows;
+      if (filterBy.id) {
+        const { id } = filterBy;
+        let playlist = await pool.query(
+          `
+          SELECT * FROM ${PLAYLIST_TABLE}
+           WHERE _id = $1
+           `,
+          [id]
+        );
+        let playlistSongs: any = await pool.query(
+          `
+          SELECT * FROM ${SONG_TABLE}
+           WHERE playlist_id = $1
+           `,
+          [id]
+        );
+        playlist = playlist.rows[0];
+        playlistSongs = playlistSongs.rows;
 
-      return { playlist, playlistSongs };
+        return { playlist, playlistSongs };
+      } else if (filterBy.favouritePlaylistsIdsFound) {
+        const { favouritePlaylistsIdsFound } = filterBy;
+        let playlists = await favouritePlaylistsIdsFound.map(
+          async ({ playlist_id }: any) => {
+            const x = await pool.query(
+              `
+            SELECT * FROM ${PLAYLIST_TABLE}
+             WHERE _id = $1 
+             `,
+              [playlist_id]
+            );
+            return x.rows[0];
+          }
+        );
+        playlists = await Promise.all(playlists);
+        return playlists;
+      }
     } else {
       const playlists = await pool.query(`SELECT * FROM ${PLAYLIST_TABLE}`);
       return playlists.rows;

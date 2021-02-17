@@ -37,12 +37,15 @@ const playlist_route_js_1 = require("./api/playlist/playlist.route.js");
 // @ts-ignore
 const song_route_js_1 = require("./api/song/song.route.js");
 // @ts-ignore
+const favourite_route_js_1 = require("./api/favourite/favourite.route.js");
+// @ts-ignore
 const socket_routes_js_1 = require("./api/socket/socket.routes.js");
 // // routes
 app.use('/api/user', user_route_js_1.userRoutes);
 app.use('/api/auth', auth_route_js_1.authRoutes);
 app.use('/api/playlist', playlist_route_js_1.playlistRoutes);
 app.use('/api/song', song_route_js_1.songRoutes);
+app.use('/api/favourite', favourite_route_js_1.favouriteRoutes);
 socket_routes_js_1.connectSockets(io);
 server.listen(port, () => {
     console.log(`listening on http://localhost:${port}`);

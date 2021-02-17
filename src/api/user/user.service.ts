@@ -68,8 +68,8 @@ async function remove(id: string) {
   try {
     await pool.query(
       `
-        DELETE FROM ${USER_TABLE} WHERE _id=$1;
-        `,
+      DELETE FROM ${USER_TABLE} WHERE _id=$1;
+      `,
       [id]
     );
     return;

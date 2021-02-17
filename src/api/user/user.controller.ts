@@ -1,4 +1,4 @@
-import { userService } from './user.service.js';
+import { userService } from './user.service';
 import express from 'express';
 
 export const userController = {
@@ -46,8 +46,8 @@ async function removeUser(req: express.Request, res: express.Response) {
 async function updateUser(req: express.Request, res: express.Response) {
   try {
     const { id } = req.params;
-    const user = req.body;
-    const userUpdated = await userService.update(id, user);
+    const { playlist_id } = req.body;
+    const userUpdated = await userService.update(id, playlist_id);
     res.status(200).send(userUpdated);
   } catch (err) {
     console.error('err, user.controller -> updateUser():', err.message);

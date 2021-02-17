@@ -46,12 +46,15 @@ import { playlistRoutes } from './api/playlist/playlist.route.js';
 // @ts-ignore
 import { songRoutes } from './api/song/song.route.js';
 // @ts-ignore
+import { favouriteRoutes } from './api/favourite/favourite.route.js';
+// @ts-ignore
 import { connectSockets } from './api/socket/socket.routes.js';
 // // routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/playlist', playlistRoutes);
 app.use('/api/song', songRoutes);
+app.use('/api/favourite', favouriteRoutes);
 connectSockets(io);
 
 server.listen(port, () => {

@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
-const user_service_js_1 = require("./user.service.js");
+const user_service_1 = require("./user.service");
 exports.userController = {
     addUser,
     removeUser,
@@ -22,7 +22,7 @@ function getUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params;
-            const user = yield user_service_js_1.userService.query({ id });
+            const user = yield user_service_1.userService.query({ id });
             res.status(200).send(user);
         }
         catch (err) {
@@ -35,7 +35,7 @@ function getUser(req, res) {
 function addUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const newUser = yield user_service_js_1.userService.add(req.body);
+            const newUser = yield user_service_1.userService.add(req.body);
             res.status(200).send(newUser);
         }
         catch (err) {
@@ -49,7 +49,7 @@ function removeUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params;
-            yield user_service_js_1.userService.remove(id);
+            yield user_service_1.userService.remove(id);
             res.status(200).send('User Deleted Succusfully');
         }
         catch (err) {
@@ -63,8 +63,8 @@ function updateUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params;
-            const user = req.body;
-            const userUpdated = yield user_service_js_1.userService.update(id, user);
+            const { playlist_id } = req.body;
+            const userUpdated = yield user_service_1.userService.update(id, playlist_id);
             res.status(200).send(userUpdated);
         }
         catch (err) {

@@ -82,8 +82,8 @@ function remove(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield db_js_1.pool.query(`
-        DELETE FROM ${USER_TABLE} WHERE _id=$1;
-        `, [id]);
+      DELETE FROM ${USER_TABLE} WHERE _id=$1;
+      `, [id]);
             return;
         }
         catch (err) {
