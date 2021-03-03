@@ -17,6 +17,7 @@ exports.playlistController = {
     addPlaylist,
     updatePlaylist,
     removePlaylist,
+    getPlayingSongPlaylist,
 };
 // GET LIST
 function getPlaylists(req, res) {
@@ -87,6 +88,18 @@ function removePlaylist(req, res) {
             const { id } = req.params;
             yield playlist_service_1.playlistService.remove({ id });
             res.send();
+        }
+        catch (err) {
+            console.error('err, playlist.controller -> removePlaylist():', err.message);
+            throw err;
+        }
+    });
+}
+function getPlayingSongPlaylist(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { songUrl } = req.params;
+            res.send(yield playlist_service_1.playlistService.getPlayingSongPlaylist(songUrl));
         }
         catch (err) {
             console.error('err, playlist.controller -> removePlaylist():', err.message);

@@ -7,6 +7,7 @@ export const playlistController = {
   addPlaylist,
   updatePlaylist,
   removePlaylist,
+  getPlayingSongPlaylist,
 };
 
 // GET LIST
@@ -69,6 +70,19 @@ async function removePlaylist(req: express.Request, res: express.Response) {
     const { id } = req.params;
     await playlistService.remove({ id });
     res.send();
+  } catch (err) {
+    console.error('err, playlist.controller -> removePlaylist():', err.message);
+
+    throw err;
+  }
+}
+async function getPlayingSongPlaylist(
+  req: express.Request,
+  res: express.Response
+) {
+  try {
+    const { songUrl } = req.params;
+    res.send(await playlistService.getPlayingSongPlaylist(songUrl));
   } catch (err) {
     console.error('err, playlist.controller -> removePlaylist():', err.message);
 

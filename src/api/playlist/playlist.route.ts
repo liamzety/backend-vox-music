@@ -7,12 +7,14 @@ const {
   addPlaylist,
   updatePlaylist,
   removePlaylist,
+  getPlayingSongPlaylist,
 } = playlistController;
 
 const router = express.Router();
 
 router.get('/', getPlaylists);
-router.get('/:id', getPlaylist);
+router.get('/getPlaylist/:id', getPlaylist);
+router.get('/checkIfSongExists/:songUrl', getPlayingSongPlaylist);
 router.put('/:id', updatePlaylist);
 router.post('/', addPlaylist);
 router.delete('/:id', removePlaylist);

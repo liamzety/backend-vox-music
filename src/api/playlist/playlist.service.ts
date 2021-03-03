@@ -5,6 +5,7 @@ export const playlistService = {
   create,
   update,
   remove,
+  getPlayingSongPlaylist,
 };
 
 const PLAYLIST_TABLE = 'playlist';
@@ -120,6 +121,28 @@ async function remove(query: { id: string }) {
     );
 
     return;
+  } catch (err) {
+    console.error('err, playlist.service -> remove():', err.message);
+    throw { message: 'Could not remove playlist.' };
+  }
+}
+async function getPlayingSongPlaylist(songUrl: string) {
+  try {
+    const songFound = await pool.query(
+      `
+              SELECT * FROM ${SONG_TABLE} WHERE video_id=$1;
+              `,
+      [songUrl]
+    );
+    const playlistId = songFound.rows[0].playlist_id;
+
+    const playlistFound = await pool.query(
+      `
+              SELECT * FROM ${PLAYLIST_TABLE} WHERE _id=$1;
+              `,
+      [playlistId]
+    );
+    return playlistFound.rows[0]._id;
   } catch (err) {
     console.error('err, playlist.service -> remove():', err.message);
     throw { message: 'Could not remove playlist.' };
