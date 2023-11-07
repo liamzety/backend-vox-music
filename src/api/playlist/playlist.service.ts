@@ -10,6 +10,7 @@ export const playlistService = {
 
 const PLAYLIST_TABLE = 'playlist';
 const SONG_TABLE = 'song';
+const USER_PLAYLIST_TABLE = 'user_playlists';
 
 async function query(filterBy?: {
   id?: string;
@@ -119,6 +120,13 @@ async function remove(query: { id: string }) {
               `,
       [id]
     );
+    await pool.query(
+      `
+              DELETE FROM ${USER_PLAYLIST_TABLE} WHERE playlist_id=$1;
+              `,
+      [id]
+    );
+
 
     return;
   } catch (err) {
