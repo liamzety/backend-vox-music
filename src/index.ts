@@ -27,7 +27,7 @@ declare module 'express-session' {
 app.use(bodyParser.json());
 app.use(
   session({
-    secret: 'voxing the vox in the box',
+    secret: 'voxng the vox in the box',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
