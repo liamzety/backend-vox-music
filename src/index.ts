@@ -8,8 +8,11 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3030;
+const env = process.env.NODE_ENV || 'development';
 import http from 'http';
-const server = http.createServer(app);
+import https from 'https';
+const protocol = env === 'production' ? https : http
+const server = protocol.createServer(app);
 import socketio from 'socket.io';
 const io = socketio(server);
 
