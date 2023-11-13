@@ -12,7 +12,7 @@ const env = process.env.NODE_ENV || 'development';
 import http from 'http';
 import https from 'https';
 const protocol = env === 'production' ? https : http
-const server = protocol.createServer(app);
+const server = http.createServer(app);
 import socketio from 'socket.io';
 const io = socketio(server);
 
